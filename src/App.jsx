@@ -10,7 +10,7 @@ const sampleMovies = [
     title: "Inception",
     description: "A mind-bending thriller by Christopher Nolan.",
     posterUrl:
-      "https://images.unsplash.com/photo-1581905764498-3c3f79d4e2d3?w=400",
+      "https://play-lh.googleusercontent.com/-qtECEmfe9yjg9w57QlILDP8Bgk5mT-cOUduloX_48y_NGYaP4dgZnrY0tUP7WX5x-vXEKhOzWL-QgFXyp4",
     rating: 5,
   },
   {
@@ -18,7 +18,7 @@ const sampleMovies = [
     title: "The Dark Knight",
     description: "Batman faces the Joker in Gotham City.",
     posterUrl:
-      "https://images.unsplash.com/photo-1579546928686-42a7d8f36d45?w=400",
+      "https://storage.googleapis.com/pod_public/1300/257216.jpg",
     rating: 4,
   },
 ];
@@ -42,7 +42,7 @@ export default function Home() {
               <Film className="h-6 w-6 text-white" />
             </div>
             <h1 className="text-2xl font-bold font-sans bg-clip-text text-transparent bg-gradient-to-r from-white to-white/70">
-              CineCollection
+              Cinema
             </h1>
           </div>
 
