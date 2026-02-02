@@ -1,0 +1,33 @@
+@import "tailwindcss";
+
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600&display=swap');
+
+
+
+/* Body and text */
+body {
+  background-color: hsl(222, 47%, 11%);  /* #0f172a */
+  color: hsl(210, 40%, 98%);             /* #f8fafc */
+  font-family: 'Inter', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body ::selection {
+  background-color: hsl(250, 95%, 64%, 0.3); /* primary / 30% opacity */
+}
+
+/* Headings */
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 700;
+  letter-spacing: -0.015em; /* approximate tracking-tight */
+}
+
+/* Glass panel */
+.glass-panel {
+  background-color: rgba(30, 41, 59, 0.5); /* card/50% */
+  backdrop-filter: blur(20px); /* backdrop-blur-xl */
+  border: 1px solid rgba(255, 255, 255, 0.05); /* border-white/5 */
+  border-radius: 0.75rem; /* radius */
+}
