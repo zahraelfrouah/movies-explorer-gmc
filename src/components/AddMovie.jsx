@@ -29,7 +29,7 @@ import {
   SelectValue,
 } from "../components/ui/select";
 
-export function AddMovieDialog() {
+export function AddMovie() {
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
 

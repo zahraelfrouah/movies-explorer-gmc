@@ -1,7 +1,7 @@
 import { Search, Star } from "lucide-react";
-import { Input } from "./components/ui/input";
-import { Slider } from "./components/ui/slider";
-import { Label } from "./components/ui/label";
+import { Input } from "../components/ui/input";
+import { Slider } from "../components/ui/slider";
+import { Label } from "../components/ui/label";
 export function Filter({ title, setTitle, rating, setRating }) {
   return (
     <div className="w-full rounded-2xl border border-white/10 bg-card/50 backdrop-blur-md p-6 shadow-xl mb-8">

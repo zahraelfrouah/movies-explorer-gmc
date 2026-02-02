@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { MovieCard } from "./components/MovieCard";
 import { Filter } from "./components/Filter";
-import { AddMovie, AddMovieDialog } from "./components/AddMovie";
+import { AddMovie} from "./components/AddMovie";
 import { Film, Clapperboard } from "lucide-react";
 
 const sampleMovies = [
@@ -55,7 +55,7 @@ export default function Home() {
       <main className="container mx-auto px-4 py-12">
         {/* Mobile FAB */}
         <div className="md:hidden fixed bottom-6 right-6 z-50">
-          <AddMovieDialog />
+          <AddMovie/>
         </div>
 
         <div className="max-w-5xl mx-auto">
