@@ -2,14 +2,34 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { Plus, Loader2 } from "lucide-react";
 
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogTrigger } from "../components/ui/dialog";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogDescription,
+  DialogTrigger,
+} from "../components/ui/dialog";
 import { Button } from "../components/ui/button";
 import { Input } from "../components/ui/input";
 import { Textarea } from "../components/ui/textarea";
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "../components/ui/form";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../components/ui/select";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "../components/ui/form";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "../components/ui/select";
 
-export function AddMovie() {
+export function AddMovie({ onAddMovie = () => {} }) {
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
 
@@ -21,19 +41,16 @@ export function AddMovie() {
       rating: 5,
     },
   });
+function onSubmit(data) {
+  setLoading(true);
 
-  function onSubmit(data) {
-    setLoading(true);
-
-    // FRONTEND ONLY (no backend)
-    console.log("Movie data:", data);
-
-    setTimeout(() => {
-      setLoading(false);
-      setOpen(false);
-      form.reset();
-    }, 800);
-  }
+  setTimeout(() => {
+    onAddMovie(data);   
+    setLoading(false);
+    setOpen(false);
+    form.reset();
+  }, 800);
+}
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
@@ -53,12 +70,15 @@ export function AddMovie() {
             Add New Movie
           </DialogTitle>
           <DialogDescription className="text-gray-600">
-            Fill the form below to add a movie (frontend only).
+            Fill the form below to add a movie
           </DialogDescription>
         </DialogHeader>
 
         <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6 mt-4">
+          <form
+            onSubmit={form.handleSubmit(onSubmit)}
+            className="space-y-6 mt-4"
+          >
             {/* Movie Title */}
             <FormField
               control={form.control}
@@ -125,7 +145,11 @@ export function AddMovie() {
                 <FormItem>
                   <FormLabel className="text-gray-700">Description</FormLabel>
                   <FormControl>
-                    <Textarea placeholder="Movie description..." className="min-h-[100px]" {...field} />
+                    <Textarea
+                      placeholder="Movie description..."
+                      className="min-h-[100px]"
+                      {...field}
+                    />
                   </FormControl>
                 </FormItem>
               )}

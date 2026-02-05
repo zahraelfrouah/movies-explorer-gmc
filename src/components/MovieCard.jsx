@@ -1,8 +1,12 @@
 import { Star } from "lucide-react";
 import { motion } from "framer-motion";
+import { Link } from "wouter";
+
+
 
 export function MovieCard({ movie, index }) {
   return (
+  <Link href={`/movie/${movie.id}`}>
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
@@ -27,8 +31,6 @@ export function MovieCard({ movie, index }) {
           <Star className="h-4 w-4 text-yellow-400" />
           <span className="text-white">{movie.rating}/5</span>
         </div>
-
-        {/* Gradient Overlay for Text Readability */}
         <div className="absolute inset-0 bg-gradient-to-t from-white/80 via-white/20 to-transparent opacity-60 group-hover:opacity-40 transition-opacity duration-300" />
       </div>
 
@@ -41,9 +43,8 @@ export function MovieCard({ movie, index }) {
           {movie.description}
         </p>
       </div>
-
-      {/* Bottom accent line */}
       <div className="h-1 w-full bg-gradient-to-r from-transparent via-blue-400/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
     </motion.div>
+    </Link>
   );
 }
