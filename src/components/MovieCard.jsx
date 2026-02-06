@@ -12,7 +12,7 @@ export function MovieCard({ movie, index }) {
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.4, delay: index * 0.05 }}
       whileHover={{ y: -5 }}
-      className="group relative flex flex-col overflow-hidden rounded-xl bg-white border border-gray-200 shadow-lg hover:shadow-xl transition-all duration-300"
+      className="group relative flex flex-col overflow-hidden rounded-xl bg-white border border-gray-200 shadow-lg hover:shadow-xl transition-all duration-300 h-full"
     >
       {/* Poster Image Container */}
       <div className="relative aspect-[2/3] overflow-hidden bg-gray-200">
