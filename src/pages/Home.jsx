@@ -1,41 +1,40 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { MovieCard } from "../components/MovieCard";
 import { Filter } from "../components/Filter";
 import { AddMovie } from "../components/AddMovie";
 import { Film, Clapperboard } from "lucide-react";
-
-
-
-const initialMovies = [
-  {
-    id: 1,
-    title: "Inception",
-    description: "A mind-bending thriller by Christopher Nolan.",
-    posterUrl:
-      "https://img3.hulu.com/user/v3/artwork/5519f425-9b21-48fb-8e67-aef24c76604a?base_image_bucket_name=image_manager&base_image=27c60b99-1b1d-47bd-bea0-b4e562bedccc&size=458x687&format=webp",
-    rating: 5,
-  },
-  {
-    id: 2,
-    title: "The Dark Knight",
-    description: "Batman faces the Joker in Gotham City.",
-    posterUrl: "https://storage.googleapis.com/pod_public/1300/257216.jpg",
-    rating: 4,
-  },
-   {
-    id: 3,
-    title: "Interstellar",
-    description: "Exploring space and time to save humanity.",
-    rating: 4.7,
-    posterUrl: "https://www.theatre-vanves.fr/wp-content/uploads/2025/04/interstellar-internet-1440x810.jpg",
-  
-  },
-];
+import axios from "axios";
 
 export default function Home() {
-  const [movies, setMovies] = useState(initialMovies);
+  const [movies, setMovies] = useState([]);
   const [title, setTitle] = useState("");
   const [rating, setRating] = useState(0);
+
+  useEffect(() => {
+    async function fetchMovies() {
+      try {
+        const query = title || "movie";
+
+        const res = await axios.get(
+          `http://www.omdbapi.com/?apikey=43009a32&s=${query}&type=movie`,
+        );
+
+        const formattedMovies = res.data.Search.map((m) => ({
+          id: m.imdbID,
+          title: m.Title,
+          description: m.Year,
+          posterUrl: m.Poster,
+          rating: 0,
+        }));
+
+        setMovies(formattedMovies);
+      } catch (err) {
+        console.error(err);
+      }
+    }
+
+    fetchMovies();
+  }, [title]);
 
   function handleAddMovie(newMovie) {
     setMovies((prev) => [
@@ -53,11 +52,9 @@ export default function Home() {
   );
 
   return (
-
-      
-
     <div className="min-h-screen bg-slate-950 text-slate-50 pb-20">
       {/* Header */}
+
       <header className="relative w-full border-b border-white/5 bg-slate-950/50 backdrop-blur-sm sticky top-0 z-50">
         <div className="container mx-auto px-4 py-4 flex items-center justify-between">
           <div className="flex items-center gap-3">
@@ -71,7 +68,6 @@ export default function Home() {
 
           <div className="hidden md:block">
             <AddMovie onAddMovie={handleAddMovie} />
-
           </div>
         </div>
       </header>
@@ -109,8 +105,8 @@ export default function Home() {
             </div>
           ) : (
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 ">
-              {filteredMovies.map((movie, index) => (
-                <MovieCard key={movie.id} movie={movie} index={index} />
+              {filteredMovies.map((movie) => (
+                <MovieCard movie={movie} key={movie.id} />
               ))}
             </div>
           )}

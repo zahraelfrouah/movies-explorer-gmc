@@ -52,7 +52,7 @@ export function Filter({ title, setTitle, rating, setRating }) {
           <Slider
             value={[rating]}
             min={0}
-            max={5}
+            max={10}
             step={1}
             onValueChange={(vals) => setRating(vals[0])}
             className="py-2"

@@ -1,47 +1,52 @@
 import { useParams, Link } from "wouter";
 import { ChevronLeft, Star, Lock } from "lucide-react";
-import { useState } from "react";
-
-const movies = [
-  {
-    id: 1,
-    title: "Inception",
-    description: "A mind-bending thriller by Christopher Nolan.",
-    rating: 4.8,
-    posterUrl:
-      "https://img3.hulu.com/user/v3/artwork/5519f425-9b21-48fb-8e67-aef24c76604a?base_image_bucket_name=image_manager&base_image=27c60b99-1b1d-47bd-bea0-b4e562bedccc&size=458x687&format=webp",
-
-    trailerUrl: "https://www.youtube.com/embed/YoHD9XEInc0",
-  },
-  {
-    id: 2,
-    title: "The Dark Knight",
-    description: "Batman faces the Joker in Gotham City.",
-    rating: 4,
-    posterUrl: "https://storage.googleapis.com/pod_public/1300/257216.jpg",
-    trailerUrl: "https://www.youtube.com/embed/EXeTwQWrcwY?si=NAZ5aRFCoLixYIf7",
-  },
-  {
-    id: 3,
-    title: "Interstellar",
-    description: "Exploring space and time to save humanity.",
-    rating: 4.7,
-    posterUrl:
-      "https://www.theatre-vanves.fr/wp-content/uploads/2025/04/interstellar-internet-1440x810.jpg",
-    trailerUrl: "https://www.youtube.com/embed/zSWdZVtXT7E?si=JLwnUm7FPncSe87d",
-  },
-];
+import { useState, useEffect } from "react";
+import axios from "axios";
 
 export default function MovieDetail() {
   const params = useParams();
-  const id = parseInt(params.id || "0");
+  const id = params.id; // imdbID from Home
 
-  const movie = movies.find((m) => m.id === id);
-
+  const [movie, setMovie] = useState(null);
   const [password, setPassword] = useState("");
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [error, setError] = useState("");
 
+
+  useEffect(() => {
+    async function fetchMovie() {
+      if (!id) return;
+
+      try {
+        const res = await axios.get(
+          `http://www.omdbapi.com/?apikey=43009a32&i=${id}&plot=full`
+        );
+
+        const data = res.data;
+
+        if (data.Response === "False") {
+          setMovie(null);
+          return;
+        }
+
+        setMovie({
+          id: data.imdbID,
+          title: data.Title,
+          description: data.Plot,
+          posterUrl: data.Poster,
+          rating: parseFloat(data.Ratings?.[0]?.Value) || 0,
+          // Placeholder trailer (OMDb does not provide trailers)
+          trailerUrl: `https://www.youtube.com/embed/${data.Title.replace(/\s+/g, "")}`,
+        });
+      } catch (err) {
+        console.error(err);
+      }
+    }
+
+    fetchMovie();
+  }, [id]);
+
+  // Password protection
   const handlePasswordSubmit = (e) => {
     e.preventDefault();
 
@@ -52,8 +57,6 @@ export default function MovieDetail() {
       setError("Incorrect password. Please try again.");
     }
   };
-
- 
 
   if (!isAuthenticated) {
     return (
@@ -67,7 +70,7 @@ export default function MovieDetail() {
             <h1 className="text-2xl font-bold text-white">Protected Content</h1>
 
             <p className="text-slate-400">
-              Enter password to view "{movie.title}"
+              Enter password to view "{movie?.title || "this movie"}"
             </p>
           </div>
 
@@ -109,18 +112,15 @@ export default function MovieDetail() {
     );
   }
 
-   if (!movie) {
+  // If movie data is loading
+  if (!movie) {
     return (
       <div className="flex flex-col items-center justify-center min-h-screen bg-gray-900 text-white">
-        <h1 className="text-2xl font-bold mb-4">Movie not found</h1>
-        <Link href="/">
-          <button className="px-4 py-2 bg-blue-600 hover:bg-blue-700 rounded-md">
-            Back to Home
-          </button>
-        </Link>
+        <h1 className="text-2xl font-bold mb-4">Loading movie...</h1>
       </div>
     );
   }
+
   return (
     <div className="min-h-screen bg-gray-900 text-white pb-20">
       <div className="max-w-6xl mx-auto px-4 py-8">
